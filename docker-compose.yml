@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: furniflow-ai-api
+    stdin_open: true
+    tty: true
+    container_name: furniflow-ai-api
+    volumes:
+      - ./:/usr/src/application
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - external-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"
+
+networks:
+  external-network:
+    external:
+      name: my_docker_network
